@@ -10,23 +10,34 @@ import UIKit
 /// Controller to show and search for Characters
 final class RMCharacterViewController: UIViewController, RMCharacterListViewDelegate {
 
-    private let characterList = RMCharacterListView()
+    private let characterListView = RMCharacterListView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Characters"
         setUpView()
+        addSearchButton()
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc private func didTapSearch() {
+        let vc = RMSearchViewController(config: RMSearchViewController.Confog(type: .charecter))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setUpView() {
-        characterList.delegate = self
-        view.addSubview(characterList)
+        characterListView.delegate = self
+        view.addSubview(characterListView)
         NSLayoutConstraint.activate([
-            characterList.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            characterList.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            characterList.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            characterList.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            characterListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            characterListView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            characterListView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            characterListView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     

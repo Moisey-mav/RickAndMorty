@@ -9,8 +9,12 @@ import Foundation
 
 /// Primary API service object to get Rick and Morty data
 final class RMService {
+    /// Shared singleton instance
     static let shared = RMService()
     
+    private let cacheManager = RMAPICacheManader()
+    
+    /// Privatized constructor
     private init() {}
     
     enum RMServiceError: Error {
@@ -24,11 +28,23 @@ final class RMService {
     ///  - type: The type of object we expect to get back
     ///  - comletion: Callback with data or error
     public func execute<T: Codable>(_ request: RMRequest, expecting type: T.Type, comletion: @escaping (Result<T, Error>) -> Void) {
+        
+        if let cachedData = cacheManager.cacheResponse(for: request.endPoint, url: request.url) {
+            print("Using cached API Response")
+            do {
+                let result = try JSONDecoder().decode(type.self, from: cachedData)
+                comletion(.success(result))
+            } catch {
+                comletion(.failure(error))
+            }
+            return
+        }
+        
         guard let urlRequest = self.request(from: request) else {
             comletion(.failure(RMServiceError.failedToCreateRequest))
             return
         }
-        
+    
         let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
             guard let data = data, error == nil else {
                 comletion(.failure(error ?? RMServiceError.failedToGetData))
@@ -38,6 +54,7 @@ final class RMService {
             // Decode response
             do {
                 let result = try JSONDecoder().decode(type.self, from: data)
+                self.cacheManager.setCache(for: request.endPoint, url: request.url, data: data)
                 comletion(.success(result))
             } catch {
                 comletion(.failure(error))
