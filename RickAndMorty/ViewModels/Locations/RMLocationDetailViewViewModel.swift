@@ -1,23 +1,23 @@
 //
-//  RMEpisodeDetailViewViewModel.swift
+//  RMLocationDetailViewViewModel.swift
 //  RickAndMorty
 //
-//  Created by Владислав Моисеев on 10.04.2023.
+//  Created by Владислав Моисеев on 13.04.2023.
 //
 
-import UIKit
+import Foundation
 
-protocol RMEpisodeDetailViewViewModelDelegate: AnyObject {
-    func didFetchEpisodeDetails()
+protocol RMLocationDetailViewViewModelDelegate: AnyObject {
+    func didFetchLocationDetails()
 }
 
-final class RMEpisodeDetailViewViewModel {
+final class RMLocationDetailViewViewModel {
     
     private let endpointUrl: URL?
-    private var dataTuple: (episode: RMEpisode, characters: [RMCharacter])? {
+    private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
         didSet {
             ceateCellViewModels()
-            delegate?.didFetchEpisodeDetails()
+            delegate?.didFetchLocationDetails()
         }
     }
     
@@ -26,7 +26,7 @@ final class RMEpisodeDetailViewViewModel {
         case charactars(viewModel: [RMCharacterCollectionViewCellViewModel])
     }
     
-    public weak var delegate: RMEpisodeDetailViewViewModelDelegate?
+    public weak var delegate: RMLocationDetailViewViewModelDelegate?
     
     public private(set) var cellViewModels: [SectionType] = []
     
@@ -45,19 +45,19 @@ final class RMEpisodeDetailViewViewModel {
     
     private func ceateCellViewModels() {
         guard let dataTuple = dataTuple else { return }
-        let episode = dataTuple.episode
+        let location = dataTuple.location
         let characters = dataTuple.characters
         
-        var createdString = episode.created
-        if let date = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: episode.created) {
+        var createdString = location.created
+        if let date = RMCharacterInfoCollectionViewCellViewModel.dateFormatter.date(from: location.created) {
             createdString = RMCharacterInfoCollectionViewCellViewModel.shortDateFormatter.string(from: date)
         }
         
         cellViewModels = [
             .iformation(viewModels: [
-                .init(title: "Episode Name", value: episode.name),
-                .init(title: "Air Date", value: episode.air_date),
-                .init(title: "Episode", value: episode.episode),
+                .init(title: "Location Name", value: location.name),
+                .init(title: "Type", value: location.type),
+                .init(title: "Dimension", value: location.dimension),
                 .init(title: "Created", value: createdString),
             ]),
             .charactars(viewModel: characters.compactMap({ characters in
@@ -66,24 +66,24 @@ final class RMEpisodeDetailViewViewModel {
         ]
     }
     
-    /// Fetch backing episode model
-    public func fetchEpisodeData() {
+    /// Fetch backing location model
+    public func fetchLocationData() {
         guard let url = endpointUrl, let request = RMRequest(url: url) else {
             return
         }
         
-        RMService.shared.execute(request, expecting: RMEpisode.self) { [weak self] result in
+        RMService.shared.execute(request, expecting: RMLocation.self) { [weak self] result in
             switch result {
             case .success(let model):
-                self?.fetchRelatedCharectras(episode: model)
+                self?.fetchRelatedCharectras(location: model)
             case .failure:
                 break
             }
         }
     }
     
-    private func fetchRelatedCharectras(episode: RMEpisode) {
-        let requests: [RMRequest] = episode.characters.compactMap({
+    private func fetchRelatedCharectras(location: RMLocation) {
+        let requests: [RMRequest] = location.residents.compactMap({
             return URL(string: $0)
         }).compactMap({
             return RMRequest(url: $0)
@@ -106,7 +106,7 @@ final class RMEpisodeDetailViewViewModel {
             }
         }
         group.notify(queue: .main) {
-            self.dataTuple = (episode: episode, characters: characters)
+            self.dataTuple = (location: location, characters: characters)
         }
      }
 }

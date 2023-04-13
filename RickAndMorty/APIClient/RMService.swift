@@ -30,7 +30,6 @@ final class RMService {
     public func execute<T: Codable>(_ request: RMRequest, expecting type: T.Type, comletion: @escaping (Result<T, Error>) -> Void) {
         
         if let cachedData = cacheManager.cacheResponse(for: request.endPoint, url: request.url) {
-            print("Using cached API Response")
             do {
                 let result = try JSONDecoder().decode(type.self, from: cachedData)
                 comletion(.success(result))
