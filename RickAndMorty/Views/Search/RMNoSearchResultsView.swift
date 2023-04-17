@@ -60,6 +60,4 @@ final class RMNoSearchResultsView: UIView {
         label.text = viewModel.title
         iconView.image = viewModel.image
     }
-    
-    
 }
