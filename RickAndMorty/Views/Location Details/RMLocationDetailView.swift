@@ -48,6 +48,8 @@ final class RMLocationDetailView: UIView {
         spinner.startAnimating()
         
         addConstraints()
+        
+        
     }
     
     required init?(coder: NSCoder) {
