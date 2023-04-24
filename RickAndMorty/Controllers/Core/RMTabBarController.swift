@@ -41,6 +41,19 @@ final class RMTabBarController: UITabBarController {
         }
         
         setViewControllers([nav1, nav2, nav3, nav4], animated: true)
-
+    }
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        self.simleAnimationWhenSelectetItem(item)
+    }
+    
+    private func simleAnimationWhenSelectetItem(_ item: UITabBarItem) {
+        guard let barItemView = item.value(forKey: "view") as? UIView else { return }
+        let itemInterval: TimeInterval = 0.3
+        let propertyAnimation = UIViewPropertyAnimator(duration: itemInterval, dampingRatio: 0.5) {
+            barItemView.transform = CGAffineTransform.identity.scaledBy(x: 1.1, y: 1.1)
+        }
+        propertyAnimation.addAnimations({ barItemView.transform = .identity }, delayFactor: CGFloat(itemInterval))
+        propertyAnimation.startAnimation()
     }
 }

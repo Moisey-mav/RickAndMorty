@@ -16,26 +16,27 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rick &amp; Morty App" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAT-Hv-LYu">
-                                <rect key="frame" x="0.0" y="59" width="393" height="759"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="32"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="Zcw-FG-R7h">
+                                <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                                <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.093359597027301788" green="0.6056559681892395" blue="0.11003837734460831" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="KAT-Hv-LYu" secondAttribute="trailing" id="75J-yn-SJz"/>
-                            <constraint firstItem="KAT-Hv-LYu" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="AQZ-SJ-1Pd"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="KAT-Hv-LYu" secondAttribute="bottom" id="eON-tJ-0Fb"/>
-                            <constraint firstItem="KAT-Hv-LYu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="jIY-Eo-iU3"/>
+                            <constraint firstAttribute="bottom" secondItem="Zcw-FG-R7h" secondAttribute="bottom" id="JTZ-Ln-JZc"/>
+                            <constraint firstItem="Zcw-FG-R7h" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="JZR-bJ-20z"/>
+                            <constraint firstAttribute="trailing" secondItem="Zcw-FG-R7h" secondAttribute="trailing" id="VSs-cR-Hds"/>
+                            <constraint firstItem="Zcw-FG-R7h" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="sG2-wQ-tfC"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="53" y="375"/>
+            <point key="canvasLocation" x="52.671755725190835" y="374.64788732394368"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="LaunchImage" width="1079" height="1920"/>
+    </resources>
 </document>

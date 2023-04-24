@@ -1,8 +1,8 @@
 //
-//  Extensions.swift
+//  UIView+Extesion.swift
 //  RickAndMorty
 //
-//  Created by Владислав Моисеев on 07.04.2023.
+//  Created by Владислав Моисеев on 19.04.2023.
 //
 
 import UIKit
